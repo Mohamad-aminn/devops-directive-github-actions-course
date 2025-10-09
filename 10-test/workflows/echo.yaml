@@ -1,10 +1,28 @@
-name: 'echo'
+name: some-name
 
 on:
-  workflow-dispatch:
+  push:
+    branches:
+      - "example-branch/*"
+
+    pull_request:
+      - opened
+      - synchronized
+      - reopened
+    paths:
+      - '03-core-features/filters/*.md'
+      - "!03-core-features/filters/*.txt"
+      -
+    schedule:
+      - cron: "0 0 * * *" # Midnight UTC
+
+    workflow_dispatch:
+
 
 jobs:
-  say-hello:
-    runs-on: ubuntu-24.04
+  say-something:
+    runs-on: ubuntu 24.04
+    needs:
+      - job1
     steps:
       - run: echo "Hello"
